@@ -22,3 +22,5 @@ async function getPgVersion() {
 }
 
 getPgVersion();
+
+export.module = sql;
