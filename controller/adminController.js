@@ -1,4 +1,3 @@
-const pool = require("../db");
 const adminModel = require("../model/adminModel");
 const jwt = require("jsonwebtoken");
 

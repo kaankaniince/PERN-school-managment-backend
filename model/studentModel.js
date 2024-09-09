@@ -1,15 +1,15 @@
-const pool = require('../db');
+const sql = require('../db');
 const bcrypt = require('bcrypt');
 
 const registerStudent = async (fname, lname, email, password, b_date) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const role_id = 3;
-    return pool.query(
+    return sql(
         "INSERT INTO student (fname, lname, email, password, b_date, role_id) VALUES ($1, $2, $3, $4, $5, $6)", [fname, lname, email, hashedPassword, b_date, role_id]);
 }
 
 const authenticateStudent = async (id, password) => {
-    const result = await pool.query("SELECT * FROM student WHERE id = $1", [id]);
+    const result = await sql("SELECT * FROM student WHERE id = $1", [id]);
     if (result.rows.length > 0) {
         const user = result.rows[0];
         const isMatch = await bcrypt.compare(password, user.password);
@@ -20,7 +20,7 @@ const authenticateStudent = async (id, password) => {
 
 const getStudentById = async (id) => {
     try {
-        const result = await pool.query("SELECT * FROM student WHERE id = $1", [id]);
+        const result = await sql("SELECT * FROM student WHERE id = $1", [id]);
         return result.rows[0];
     } catch (error) {
         console.error('Error fetching student by ID:', error);
@@ -29,7 +29,7 @@ const getStudentById = async (id) => {
 };
 
 const getNotes = async (id) => {
-    return pool.query(`
+    return sql(`
         SELECT s.id,
                s.fname,
                s.lname,
@@ -48,7 +48,7 @@ const getNotes = async (id) => {
 };
 
 /*const getNotesSum = async (req, res) => {
-    return pool.query(`
+    return sql(`
         SELECT s.fname, s.lname, AVG(sln.notes) AS "avg_of_notes"
         FROM student s
                  JOIN student_lessons_notes sln ON s.id = sln.student_id
@@ -59,11 +59,11 @@ const getNotes = async (id) => {
 
 
 const getLessons = async (req, res) => {
-    return pool.query("SELECT lesson FROM lessons ORDER BY lesson");
+    return sql("SELECT lesson FROM lessons ORDER BY lesson");
 };
 
 const getAbsenteeism = async (id) => {
-    return pool.query(`
+    return sql(`
         SELECT 
             a.id,
             a.created_at,
@@ -76,7 +76,7 @@ const getAbsenteeism = async (id) => {
 };
 
 const getSchedule = async (id) => {
-    return pool.query(`
+    return sql(`
         SELECT sch.id,
                sch.day,
                sch.start_time,
