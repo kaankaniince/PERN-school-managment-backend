@@ -2,8 +2,8 @@ const sql = require('../db');
 const bcrypt = require("bcrypt");
 
 const authenticateTeacher = async (email, password) => {
-    const result = await sql("SELECT * FROM teacher WHERE email = $1", [email]);
-    if (result.rows.length > 0) {
+    const result = await sql`SELECT * FROM teacher WHERE email = ${email}`;
+    if (result.rows && result.rows.length > 0) {
         const user = result.rows[0];
         const isMatch = await bcrypt.compare(password, user.password);
         return isMatch ? user : null;
@@ -13,8 +13,8 @@ const authenticateTeacher = async (email, password) => {
 
 const getTeacherByEmail = async (email) => {
     try {
-        const result = await sql("SELECT * FROM teacher WHERE email = $1", [email]);
-        return result.rows[0];
+        const result = await sql`SELECT * FROM teacher WHERE email = ${email}`;
+        return result?.rows[0];
     } catch (error) {
         console.error('Error fetching teacher by email:', error);
         throw error;
