@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 
 const authenticateAdmin = async (username, password) => {
     const result = await sql`SELECT * FROM admin WHERE username = ${username}`;
-    if (result.rows && result.rows.length > 0) {
-        const user = result.rows[0];
+    if (result.length > 0) {
+        const user = result[0];
         const isMatch = await bcrypt.compare(password, user.password);
         return isMatch ? user : null;
     }
