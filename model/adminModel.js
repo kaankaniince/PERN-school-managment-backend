@@ -14,7 +14,7 @@ const authenticateAdmin = async (username, password) => {
 const getAdminByUsername = async (username) => {
     try {
         const result = await sql`SELECT * FROM admin WHERE username = ${username}`;
-        return result?.rows[0];
+        return result[0];
     } catch (error) {
         console.error('Error fetching admin by username:', error);
         throw error;
