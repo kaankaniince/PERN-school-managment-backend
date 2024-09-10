@@ -6,9 +6,7 @@ const dotenv = require('dotenv');
 
 const PORT = process.env.PORT || 5001;
 
-app.use(cors({
-    origin: 'https://pern-school-managment-frontend.vercel.app'
-}));
+app.use(cors());
 app.use(express.json());
 
 // app.use(authMiddleware) ?
