@@ -21,9 +21,15 @@ const getAdminByUsername = async (username) => {
     }
 };
 
-const getTeachers = async (req, res) => {
-    return sql`SELECT * FROM teacher ORDER BY id`;
-}
+// adminModel.js
+const getTeachers = async () => {
+    try {
+        const result = await sql`SELECT * FROM teacher ORDER BY id`;
+        return result;
+    } catch (error) {
+        throw new Error('Error fetching teachers');
+    }
+};
 
 const getStudents = async (req, res) => {
     return sql`

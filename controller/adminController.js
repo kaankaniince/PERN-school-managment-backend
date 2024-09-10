@@ -9,7 +9,7 @@ const authenticateAdmin = async (req, res) => {
             const token = jwt.sign({
                 username: user.username,
                 role: user.role_id
-            }, '9a78cd3ea8e4f710862a5ff757eabe16d78111a8e220280b76ba26bbd4d6db2d', {expiresIn: '1h'});
+            }, process.env.TOKEN_SECRET, {expiresIn: '1h'});
             res.status(200).json({status: true, access_token: token});
         } else {
             res.status(401).send("Invalid credentials");
@@ -35,15 +35,17 @@ const getAdminByUsername = async (req, res) => {
     }
 };
 
+// In your Express route file
+
 const getTeachers = async (req, res) => {
     try {
-        const getTeachers = await adminModel.getTeachers();
-        res.status(200).json(getTeachers.rows);
+        const result = await adminModel.getTeachers();
+        res.status(200).json(result.rows); // Assuming result has rows
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the teachers");
     }
-}
+};
 
 const getStudents = async (req, res) => {
     try {
