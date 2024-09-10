@@ -9,7 +9,7 @@ const authenticateTeacher = async (req, res) => {
             const token = jwt.sign({
                 email: user.email,
                 role: user.role_id
-            }, '9a78cd3ea8e4f710862a5ff757eabe16d78111a8e220280b76ba26bbd4d6db2d', {expiresIn: '1h'});
+            }, process.env.TOKEN_SECRET, {expiresIn: '1h'});
             res.status(200).json({status: true, access_token: token});
         } else {
             res.status(401).send("Invalid credentials");
