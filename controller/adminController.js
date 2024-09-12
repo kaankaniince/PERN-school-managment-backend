@@ -40,7 +40,8 @@ const getAdminByUsername = async (req, res) => {
 const getTeachers = async (req, res) => {
     try {
         const result = await adminModel.getTeachers();
-        res.status(200).json(result.rows); // Assuming result has rows
+        console.log(result)
+        res.status(200).json(result); // Assuming result has rows
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the teachers");
