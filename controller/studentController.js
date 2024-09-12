@@ -17,7 +17,7 @@ const authenticateStudent = async (req, res) => {
         const { id, password } = req.body;
         const user = await studentModel.authenticateStudent(id, password);
         if (user) {
-            const token = jwt.sign({ id: user.id, role: user.role_id }, '9a78cd3ea8e4f710862a5ff757eabe16d78111a8e220280b76ba26bbd4d6db2d', { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id, role: user.role_id }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
             res.status(200).json({ status: true, access_token: token, user: { id: user.id, role: user.role_id } });
         } else {
             res.status(401).send("Invalid credentials");
@@ -32,7 +32,7 @@ const getNotes = async (req, res) => {
     try {
         const id = req.user.id
         const result = await studentModel.getNotes(id);
-        res.status(200).json(result.rows);
+        res.status(200).json(result);
     } catch (err) {
         console.error('Error fetching notes:', err);
         res.status(500).send('An error occurred while getting the notes');
@@ -41,7 +41,7 @@ const getNotes = async (req, res) => {
 /*const getNotesSum = async (req, res) => {
     try {
         const getNotesSum = await studentModel.getNotesSum();
-        res.status(200).json(getNotesSum.rows);
+        res.status(200).json(getNotesSum);
     }catch (err){
         console.log(err);
         res.status(500).send("An error occurred while getting the sums of notes");
@@ -66,7 +66,7 @@ const getStudentById = async (req, res) => {
 const getLessons = async (req, res) => {
     try {
         const getLessons = await studentModel.getLessons();
-        res.status(200).json(getLessons.rows);
+        res.status(200).json(getLessons);
     }catch (err){
         console.log(err);
         res.status(500).send("An error occurred while getting the lessons");
@@ -77,7 +77,7 @@ const getAbsenteeism = async (req, res) => {
     try {
         const id = req.user.id;
         const absenteeismRecords = await studentModel.getAbsenteeism(id);
-        res.status(200).json(absenteeismRecords.rows);
+        res.status(200).json(absenteeismRecords);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting absenteeism records");
@@ -88,7 +88,7 @@ const getSchedule = async (req, res) => {
     try {
         const id = req.user.id
         const getSchedule = await studentModel.getSchedule(id);
-        res.status(200).json(getSchedule.rows);
+        res.status(200).json(getSchedule);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the schedule");

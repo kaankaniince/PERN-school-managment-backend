@@ -38,7 +38,7 @@ const getTeacherByEmail = async (req, res) => {
 const getStudents = async (req, res) => {
     try {
         const getStudents = await teacherModel.getStudents();
-        res.status(200).json(getStudents.rows);
+        res.status(200).json(getStudents);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the students");
@@ -49,7 +49,7 @@ const getTeacherStudentsNotes = async (req, res) => {
     try {
         const email = req.user.email
         const getTeacherStudentsNotes = await teacherModel.getTeacherStudentsNotes(email);
-        res.status(200).json(getTeacherStudentsNotes.rows);
+        res.status(200).json(getTeacherStudentsNotes);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the classes");
@@ -60,7 +60,7 @@ const getClassStudents = async (req, res) => {
     try {
         const email = req.user.email
         const getClassStudents = await teacherModel.getClassStudents(email);
-        res.status(200).json(getClassStudents.rows);
+        res.status(200).json(getClassStudents);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the classes");
@@ -71,7 +71,7 @@ const getSchedule = async (req, res) => {
     try {
         const email = req.user.email
         const getSchedule = await teacherModel.getSchedule(email);
-        res.status(200).json(getSchedule.rows);
+        res.status(200).json(getSchedule);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the schedule");

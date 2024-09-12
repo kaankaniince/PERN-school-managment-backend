@@ -40,8 +40,7 @@ const getAdminByUsername = async (req, res) => {
 const getTeachers = async (req, res) => {
     try {
         const result = await adminModel.getTeachers();
-        console.log(result)
-        res.status(200).json(result); // Assuming result has rows
+        res.status(200).json(result);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the teachers");
@@ -51,7 +50,7 @@ const getTeachers = async (req, res) => {
 const getStudents = async (req, res) => {
     try {
         const getStudents = await adminModel.getStudents();
-        res.status(200).json(getStudents.rows);
+        res.status(200).json(getStudents);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the students");
@@ -61,7 +60,7 @@ const getStudents = async (req, res) => {
 const getClassAssignments = async (req, res) => {
     try {
         const getClassAssignments = await adminModel.getClassAssignments();
-        res.status(200).json(getClassAssignments.rows);
+        res.status(200).json(getClassAssignments);
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the class assignments");
