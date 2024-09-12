@@ -10,7 +10,7 @@ const authenticateTeacher = async (req, res) => {
                 email: user.email,
                 role: user.role_id
             }, process.env.TOKEN_SECRET, {expiresIn: '1h'});
-            res.status(200).json({status: true, access_token: token});
+            res.status(200).json({status: true, access_token: token, user: {email: user.email, role: user.role_id}});
         } else {
             res.status(401).send("Invalid credentials");
         }
@@ -111,15 +111,14 @@ const updateSchedule = async (req, res) => {
 
 const upsertNotes = async (req, res) => {
     try {
-        const { notes, student_id, lesson_id, teacher_id } = req.body;
-        const result = await teacherModel.upsertNotes({ notes, student_id, lesson_id, teacher_id });
+        const {notes, student_id, lesson_id, teacher_id} = req.body;
+        const result = await teacherModel.upsertNotes({notes, student_id, lesson_id, teacher_id});
         res.status(200).json(result);
     } catch (error) {
         console.error('Error in updateNotes controller:', error);
         res.status(500).send("An error occurred while updating the grade");
     }
 };
-
 
 
 const deleteStudent = async (req, res) => {

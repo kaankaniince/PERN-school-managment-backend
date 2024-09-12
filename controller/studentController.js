@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const registerStudent = async (req, res) => {
     try {
-        const { fname, lname, email, password, b_date } = req.body;
+        const {fname, lname, email, password, b_date} = req.body;
         await studentModel.registerStudent(fname, lname, email, password, b_date);
         res.status(201).send("Student registered successfully");
     } catch (err) {
@@ -14,11 +14,11 @@ const registerStudent = async (req, res) => {
 
 const authenticateStudent = async (req, res) => {
     try {
-        const { id, password } = req.body;
+        const {id, password} = req.body;
         const user = await studentModel.authenticateStudent(id, password);
         if (user) {
-            const token = jwt.sign({ id: user.id, role: user.role_id }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
-            res.status(200).json({ status: true, access_token: token, user: { id: user.id, role: user.role_id } });
+            const token = jwt.sign({id: user.id, role: user.role_id}, process.env.TOKEN_SECRET, {expiresIn: '1h'});
+            res.status(200).json({status: true, access_token: token, user: {id: user.id, role: user.role_id}});
         } else {
             res.status(401).send("Invalid credentials");
         }
@@ -50,16 +50,16 @@ const getNotes = async (req, res) => {
 
 const getStudentById = async (req, res) => {
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         const student = await studentModel.getStudentById(id);
         if (student) {
-            res.status(200).json({ user: student })
+            res.status(200).json({user: student})
         } else {
-            res.status(404).json({ message: 'Student not found' });
+            res.status(404).json({message: 'Student not found'});
         }
     } catch (err) {
         console.error('Error fetching student by ID:', err);
-        res.status(500).json({ message: 'Error fetching student by ID', error: err.message });
+        res.status(500).json({message: 'Error fetching student by ID', error: err.message});
     }
 };
 
@@ -67,7 +67,7 @@ const getLessons = async (req, res) => {
     try {
         const getLessons = await studentModel.getLessons();
         res.status(200).json(getLessons);
-    }catch (err){
+    } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while getting the lessons");
     }

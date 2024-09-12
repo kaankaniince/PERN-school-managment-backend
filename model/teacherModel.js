@@ -14,7 +14,7 @@ const authenticateTeacher = async (email, password) => {
 const getTeacherByEmail = async (email) => {
     try {
         const result = await sql`SELECT * FROM teacher WHERE email = ${email}`;
-        return result;
+        return result[0];
     } catch (error) {
         console.error('Error fetching teacher by email:', error);
         throw error;
